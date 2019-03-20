@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5D686C"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/welcome_top"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/isento"
+        android:gravity="center"
+        android:text="@string/welcome"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/audio_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/welcome_top"
+        android:layout_margin="10dp"
+        android:src="@drawable/audio" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/welcome_top"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/audio_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audio_image"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/playfair"
+        android:text="@string/audio_title"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/audio_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audio_title"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/isento"
+        android:gravity="center"
+        android:text="@string/audio_text"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audio_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/playfair"
+        android:text="@string/video_title"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/video_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_title"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/isento"
+        android:gravity="center"
+        android:text="@string/video_text"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/read_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/playfair"
+        android:text="@string/reading_list_title"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/read_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/read_title"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/isento"
+        android:gravity="center"
+        android:text="@string/reading_list_text"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/mic" />
+</RelativeLayout>

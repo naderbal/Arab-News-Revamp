@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">ArabNews</string>
+    <string name="notification_url">http://mc.srpc.com/</string>
+
+    <!--menu-->
+    <string name="about">About Arab News</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">SETTINGS</string>
+    <string name="print_edition">PRINT EDITION</string>
+    <string name="pdf_read">PDF Read</string>
+    <string name="reading_list">READING LIST</string>
+    <string name="videos">VIDEOS</string>
+
+    <!--Tutorial-->
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+
+    <!--Welcome-->
+    <string name="welcome">Welcome</string>
+    <string name="welcome_text">We welcome you to spend your time with us. A new way to explore our stories, long reads and latest.</string>
+    <string name="agree">Tap Accept to agree to the <u>Terms of Service</u> and <u>Privacy Policy</u></string>
+    <string name="accept">I accept the license agreement</string>
+
+    <!--Audio-->
+    <string name="audio_title">Audio</string>
+    <string name="audio_text">Read out load the news and headlines</string>
+
+    <!--Video-->
+    <string name="video_title">Live video</string>
+    <string name="video_text">Read out load the news and headlines</string>
+
+    <!--Reading List-->
+    <string name="reading_list_title">Reading list</string>
+    <string name="reading_list_text">Read out load the news and headlines</string>
+    <string name="reading_list_error">Drag and drop items to basket in order to add new items to the Reading List</string>
+
+    <!--Notifications-->
+    <string name="enable_notifications">Enable notifications to get latest  news, breaking news, opinion articles an and live video streaming</string>
+    <string name="not_now">Not Now</string>
+    <string name="turn_on">Yes, turn on</string>
+</resources>

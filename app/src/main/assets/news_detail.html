@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <title>News Details</title>
+    <style >
+
+    @font-face { font-family: 'isento'; src: url('file:///android_asset/isento.ttf');}
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+             body,  div {
+     max-width: 100%;
+      height: auto;
+    }
+            iframe{
+                margin:0 auto !important;
+                height:160px !important;
+                width:285px !important;
+                display: block;
+            }
+        @media only screen and (min-width: 600px) {
+            iframe{
+                margin:0 auto !important;
+                height:338px !important;
+                width:600px !important;
+                display: block;
+            }
+        }
+        body{padding:0; margin:0; ltr}
+        .bodyText {color: #000000; font-family:isento;  src: url('isento.ttf'); font-size: 16px; /*line-height: 30px;*/ padding: 0px 0px;  }
+        body {
+        font-family: 'isento.ttf';
+            /* These are technically the same, but use both */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            /* This is the dangerous one in WebKit, as it breaks things wherever */
+            word-break: break-all;
+            /* Instead use this non-standard one: */
+            word-break: break-word;
+            /* Adds a hyphen where the word breaks, if supported (No Blink) */
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+        }
+        
+
+
+
+    </style>
+</head>
+
+<body>
+<div class="bodyText" dir= "ltr" style="font-family:'isento'" >
+    {{description}}
+
+</div>
+</body>
+</html>

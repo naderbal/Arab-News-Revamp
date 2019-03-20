@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "817209278292",
+    "firebase_url": "https://arabnews-c84b8.firebaseio.com",
+    "project_id": "arabnews-c84b8",
+    "storage_bucket": "arabnews-c84b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817209278292:android:c0d267731b809cf0",
+        "android_client_info": {
+          "package_name": "com.knowledgeview.tablet.arabnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817209278292-7g1badpnh4suum07strlmbj1ovtg9a4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knowledgeview.tablet.arabnews",
+            "certificate_hash": "b966400099b3b02e846a8146238cb87112daf391"
+          }
+        },
+        {
+          "client_id": "817209278292-3tfuaj3h1jf3hp0vfsapr5on1kggdcrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCon_kuQUGf5imcm-ZFu8w4WZOInu9GZSc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817209278292-3tfuaj3h1jf3hp0vfsapr5on1kggdcrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
