@@ -26,10 +26,7 @@ import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import com.knowledgeview.tablet.arabnews.view.adapters.ExpandableListMenuAdapter
-import com.knowledgeview.tablet.arabnews.view.fragments.HomeFragment
-import com.knowledgeview.tablet.arabnews.view.fragments.ReadingListFragment
-import com.knowledgeview.tablet.arabnews.view.fragments.ScreenListingFragment
-import com.knowledgeview.tablet.arabnews.view.fragments.VideosFragment
+import com.knowledgeview.tablet.arabnews.view.fragments.*
 import com.knowledgeview.tablet.arabnews.viewmodel.SectionListingViewModel
 import com.srpc.independantminds.model.local.Prefs
 import dagger.android.AndroidInjection
@@ -51,6 +48,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private var position = 0
     private var readingListPosition = 1
     private var videoListPosition = 1
+    private var opinionListPosition = 1
+    private var photosListPosition = 1
     private val broadcastAction = "in.app.notifications.arabnews"
     private var notificationReceiver: NotificationBroadcastReceiver? = null
     private var menus = arrayListOf<ParentSection>()
@@ -59,6 +58,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private var notificationTitle: TextView? = null
     private var notificationText: TextView? = null
     private var articleID: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,18 +148,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
             drawerLayout.closeDrawer(GravityCompat.START)
         }
-        /*videosView.setOnClickListener {
-            if (position != videoListPosition) {
-                position = videoListPosition
-                bottomTabs.selectedItemId = R.id.videos
-                openFragment(VideosFragment())
-                layoutWhite.visibility = View.GONE
-                layoutGreen.visibility = View.VISIBLE
-                greenTitle.text = getString(R.string.videos)
-                expandable!!.getPosition(-1)
-            }
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }*/
         listMenu.addFooterView(footerView)
         val footerViewTwo = (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.footer_menu_two, null, false)
         val notifications = footerViewTwo.findViewById<SwitchCompat>(R.id.notifications)
@@ -180,10 +168,12 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     menus.clear()
                     menus.add(ParentSection("HOME", null, null))
                     menus.addAll(sections.data)
-                    menus.add(ParentSection("OPINION",null,null))
-                    menus.add(ParentSection("VIDEOS",null,null))
-                    videoListPosition = menus.size -1
-                    menus.add(ParentSection("PHOTOS",null,null))
+                    menus.add(ParentSection("OPINION", null, null))
+                    opinionListPosition = menus.size - 1
+                    menus.add(ParentSection("VIDEOS", null, null))
+                    videoListPosition = menus.size - 1
+                    menus.add(ParentSection("PHOTOS", null, null))
+                    photosListPosition = menus.size - 1
                     readingListPosition = menus.size
                     expandable = ExpandableListMenuAdapter(applicationContext, menus)
                     listMenu.setAdapter(expandable)
@@ -220,29 +210,39 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         listMenu.setOnGroupClickListener { _, _, groupPosition, _ ->
             if (position != groupPosition) {
                 position = groupPosition
-                if(groupPosition==videoListPosition){
-                    openFragment(VideosFragment())
-                    sectionTitle.text=""
-                    layoutWhite.visibility = View.GONE
-                    greenTitle.text = getString(R.string.videos)
-                    layoutGreen.visibility = View.VISIBLE
-                    expandable!!.getPosition(videoListPosition)
-                }
-                else if (menus[groupPosition].getChildren().isNullOrEmpty() && position != 0) {
-                    val screenListingFragment = ScreenListingFragment()
-                    val bundle = Bundle()
-                    bundle.putString("tid", menus[groupPosition].getTid())
-                    screenListingFragment.arguments = bundle
-                    openFragment(screenListingFragment)
-                    sectionTitle.text = menus[groupPosition].getTitle()
-                } else if (groupPosition == 0) {
-                    openFragment(HomeFragment())
-                    bottomTabs.selectedItemId = R.id.home
+                when {
+                    groupPosition == videoListPosition -> {
+                        openFragment(VideosFragment())
+                        sectionTitle.text = ""
+                        layoutWhite.visibility = View.GONE
+                        greenTitle.text = getString(R.string.videos)
+                        layoutGreen.visibility = View.VISIBLE
+                        expandable!!.getPosition(videoListPosition)
+                        bottomTabs.selectedItemId=R.id.videos
+                    }
+                    groupPosition == 0 -> {
+                        openFragment(HomeFragment())
+                        bottomTabs.selectedItemId = R.id.home
+                    }
+                    position==opinionListPosition -> {
+                        openFragment(EmptyFragment())
+                    }
+                    position==photosListPosition -> {
+                        openFragment(EmptyFragment())
+                    }
+                    menus[groupPosition].getChildren().isNullOrEmpty() -> {
+                        val screenListingFragment = ScreenListingFragment()
+                        val bundle = Bundle()
+                        bundle.putString("tid", menus[groupPosition].getTid())
+                        screenListingFragment.arguments = bundle
+                        openFragment(screenListingFragment)
+                        sectionTitle.text = menus[groupPosition].getTitle()
+                        layoutWhite.visibility = View.VISIBLE
+                        layoutGreen.visibility = View.GONE
+                    }
                 }
                 expandable!!.positionClicked = groupPosition
                 drawerLayout.closeDrawer(GravityCompat.START)
-                layoutWhite.visibility = View.VISIBLE
-                layoutGreen.visibility = View.GONE
             }
             false
         }

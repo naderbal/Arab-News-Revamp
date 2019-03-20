@@ -54,10 +54,14 @@ class HomeFragment : DaggerFragment() {
         homeListViewModel.getHomeList().observe(this, Observer { homeList ->
             progressBar.visibility = View.GONE
             if (homeList != null) {
-                terms.addAll(homeList.newsListTop!!)
-                terms.addAll(homeList.newsList!!)
-                terms.add(homeList.opinion!!)
-                terms.add(homeList.cartoon!!)
+                if (homeList.newsListTop != null)
+                    terms.addAll(homeList.newsListTop!!)
+                if (homeList.newsList != null)
+                    terms.addAll(homeList.newsList!!)
+                if (homeList.opinion != null)
+                    terms.add(homeList.opinion!!)
+                if (homeList.cartoon != null)
+                    terms.add(homeList.cartoon!!)
                 val dividerItemDecoration = DividerItemDecoration(context,
                         RecyclerView.VERTICAL)
                 homeListing.addItemDecoration(dividerItemDecoration)
