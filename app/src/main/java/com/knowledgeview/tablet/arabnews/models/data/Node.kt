@@ -24,4 +24,7 @@ class Node {
     var author: List<String>? = null
     @SerializedName("ds_created")
     var date: Date? = null
+    @SerializedName("author_details")
+    var authorObject: Author? = null
+    var opinionList:List<HomeData>?=null
 }

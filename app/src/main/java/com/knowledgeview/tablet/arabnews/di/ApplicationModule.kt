@@ -63,6 +63,12 @@ class ApplicationModule {
 
     @Singleton
     @Provides
+    fun provideRetrofitOpinionDetails(retrofit: Retrofit): PostOpinionDetails {
+        return retrofit.create(PostOpinionDetails::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideDb(context: Context): ArabNewsDatabase {
         return Room
                 .databaseBuilder(context, ArabNewsDatabase::class.java, "ArabNewsDatabase.db")

@@ -74,12 +74,12 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
         notificationTitle!!.setOnClickListener {
             if (!articleID.isNullOrEmpty()) {
-
+                    //go to the article details page
             }
         }
         notificationText!!.setOnClickListener {
             if (!articleID.isNullOrEmpty()) {
-
+                //go to the article details page
             }
         }
 

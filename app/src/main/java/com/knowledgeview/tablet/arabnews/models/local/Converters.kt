@@ -3,6 +3,8 @@ package com.knowledgeview.tablet.arabnews.models.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.knowledgeview.tablet.arabnews.models.data.Author
+import com.knowledgeview.tablet.arabnews.models.data.HomeData
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import java.util.*
 
@@ -21,12 +23,12 @@ class Converters {
 
     @TypeConverter
     fun fromParentSection(value: String?): MutableList<ParentSection>? {
-        if(value!=null) {
+        return if(value!=null) {
             val listType = object : TypeToken<MutableList<ParentSection>>() {
 
             }.type
-            return Gson().fromJson(value, listType)
-        }else return null
+            Gson().fromJson(value, listType)
+        }else null
     }
 
     @TypeConverter
@@ -39,6 +41,20 @@ class Converters {
 
     @TypeConverter
     fun fromArrayList(list: MutableList<String>?): String? {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun toHomeDataList(list: MutableList<HomeData>?): String? {
+        return if(list!=null) {
+            val gson = Gson()
+            gson.toJson(list)
+        }else null
+    }
+
+    @TypeConverter
+    fun fromHomeDateArrayList(list: MutableList<HomeData>?): String? {
         val gson = Gson()
         return gson.toJson(list)
     }
@@ -71,47 +87,21 @@ class Converters {
         }
     }
 
-  /*  @TypeConverter
-    fun fromSection(value: String?): MutableList<Related>? {
-        val listType = object : TypeToken<MutableList<Related>>() {
+    @TypeConverter
+    fun fromAuthor(value: String?): Author? {
+        return if(value!=null) {
+            val listType = object : TypeToken<Author>() {
 
-        }.type
-        return Gson().fromJson(value, listType)
+            }.type
+            Gson().fromJson(value, listType)
+        }else null
     }
 
     @TypeConverter
-    fun fromList(list: MutableList<Related>?): String? {
-        val gson = Gson()
-        return gson.toJson(list)
-    }*/
-
- /*   @TypeConverter
-    fun fromMainSection(value: String): MutableList<Children> {
-        val listType = object : TypeToken<MutableList<Children>>() {
-
-        }.type
-        return Gson().fromJson(value, listType)
+    fun toAuthor(list: Author?): String? {
+        return if(list!=null) {
+            val gson = Gson()
+            gson.toJson(list)
+        }else null
     }
-
-    @TypeConverter
-    fun fromMainList(list: MutableList<Children>): String {
-        val gson = Gson()
-        return gson.toJson(list)
-    }*/
-
-    /*
-
-     @TypeConverter
-     fun fromParentSection(value: String): MutableList<ParentSection> {
-         val listType = object : TypeToken<MutableList<ParentSection>>() {
-
-         }.type
-         return Gson().fromJson(value, listType)
-     }
-
-     @TypeConverter
-     fun toParentSection(list: MutableList<ParentSection>): String {
-         val gson = Gson()
-         return gson.toJson(list)
-     }*/
 }

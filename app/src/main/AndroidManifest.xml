@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".view.NotificationActivity"/>
+        <activity android:name=".view.OpinionDetailsPage"/>
         <activity android:name=".view.NodeDetailsActivity"/>
         <activity android:name=".view.WebViewActivity"/>
         <activity android:name=".view.PDFActivity"/>
