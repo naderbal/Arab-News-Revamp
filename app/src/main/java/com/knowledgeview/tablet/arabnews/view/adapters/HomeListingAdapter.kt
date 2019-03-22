@@ -103,7 +103,7 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
                 } else if (section.value == "opinion") {
                     itemView.sectionTitle.text = "Opinion"
                     itemView.sectionTitle.visibility = View.VISIBLE
-                    itemView.data.adapter = OpinionListAdapter(context,section.data!!,position)
+                    itemView.data.adapter = OpinionListAdapter(context,section.data!!,position, false)
                 } else {
                     itemView.sectionTitle.text = "Cartoon"
                     itemView.sectionTitle.visibility = View.VISIBLE

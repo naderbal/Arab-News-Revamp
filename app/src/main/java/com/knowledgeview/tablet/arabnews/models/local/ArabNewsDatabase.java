@@ -17,7 +17,7 @@ import androidx.room.TypeConverters;
  * Created by Miriana on 1/4/2018.
  */
 @Database(entities = {ParentSection.class, SectionListing.class, ReadingList.class
-, Video.class, ResultData.class, Node.class}, version = 1, exportSchema = false)
+, Video.class, ResultData.class, Node.class}, version = 2, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class ArabNewsDatabase extends RoomDatabase {
     public abstract DaoAccess daoAccess();

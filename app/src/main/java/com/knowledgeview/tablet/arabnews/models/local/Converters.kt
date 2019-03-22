@@ -7,6 +7,7 @@ import com.knowledgeview.tablet.arabnews.models.data.Author
 import com.knowledgeview.tablet.arabnews.models.data.HomeData
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -47,16 +48,20 @@ class Converters {
 
     @TypeConverter
     fun toHomeDataList(list: MutableList<HomeData>?): String? {
-        return if(list!=null) {
+        if(list!=null) {
             val gson = Gson()
-            gson.toJson(list)
-        }else null
+            return gson.toJson(list)
+        }else return null
     }
 
     @TypeConverter
-    fun fromHomeDateArrayList(list: MutableList<HomeData>?): String? {
-        val gson = Gson()
-        return gson.toJson(list)
+    fun fromHomeDateArrayList(value: String?): MutableList<HomeData>? {
+        return if(value!=null) {
+            val listType = object : TypeToken<MutableList<HomeData>>() {
+
+            }.type
+            Gson().fromJson(value, listType)
+        }else null
     }
 
     @TypeConverter

@@ -58,8 +58,8 @@ class HomeFragment : DaggerFragment() {
                     terms.addAll(homeList.newsListTop!!)
                 if (homeList.newsList != null)
                     terms.addAll(homeList.newsList!!)
-                if (homeList.opinion != null)
-                    terms.add(homeList.opinion!!)
+                if (homeList.opinion != null && homeList.opinion!!.isNotEmpty())
+                    terms.add(homeList.opinion!![0])
                 if (homeList.cartoon != null)
                     terms.add(homeList.cartoon!!)
                 val dividerItemDecoration = DividerItemDecoration(context,

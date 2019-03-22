@@ -8,6 +8,10 @@ import com.onesignal.OneSignal
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
+import com.instabug.library.invocation.InstabugInvocationEvent
+import com.instabug.library.Instabug
+
+
 
 /**
  * Created by Miriana on 3/22/2018.
@@ -26,5 +30,8 @@ class Arabnews : Application(), HasActivityInjector {
                 .setNotificationOpenedHandler(NotificationOpened(applicationContext))
                 .init()
 
+        Instabug.Builder(this, "50a54cb0f79e53fd2f7d9d1571757786")
+                .setInvocationEvents(InstabugInvocationEvent.SHAKE, InstabugInvocationEvent.SCREENSHOT)
+                .build()
     }
 }
