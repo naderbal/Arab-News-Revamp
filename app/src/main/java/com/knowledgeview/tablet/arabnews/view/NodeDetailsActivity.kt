@@ -1,22 +1,24 @@
 package com.knowledgeview.tablet.arabnews.view
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
+import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
-import com.knowledgeview.tablet.arabnews.models.data.Node
 import com.knowledgeview.tablet.arabnews.utils.Methods
 import com.knowledgeview.tablet.arabnews.view.adapters.BulletListAdapter
 import com.knowledgeview.tablet.arabnews.viewmodel.NodeViewModel
@@ -36,6 +38,8 @@ class NodeDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.node_details_activity)
+        configureToolbarWithUpButton(R.id.toolbar)
+
         val image = findViewById<ImageView>(R.id.news_image)
         val author = findViewById<TextView>(R.id.author)
         val date = findViewById<TextView>(R.id.date)
@@ -45,11 +49,15 @@ class NodeDetailsActivity : AppCompatActivity() {
         val label = findViewById<TextView>(R.id.headline)
         val categoryName = findViewById<TextView>(R.id.category_name)
         val content = findViewById<WebView>(R.id.content)
+
         AndroidInjection.inject(this)
         val entityID = intent.getStringExtra("entityID")
+
         nodeViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(NodeViewModel::class.java)
+
         nodeViewModel.fetchDetails(entityID)
+
         nodeViewModel.getNodeDetails().observe(this, Observer { nodes ->
             if (nodes != null && !nodes.data.isNullOrEmpty()) {
                 val node = nodes.data[0]
@@ -59,7 +67,8 @@ class NodeDetailsActivity : AppCompatActivity() {
                     content.webChromeClient = WebChromeClient()
                     if (!TextUtils.isEmpty(node.content)) {
                         content.settings.javaScriptEnabled = true
-                        content.loadDataWithBaseURL("http://ndemo.arabnews.com/", Methods.formatTextWebView(applicationContext,
+                        content.setBackgroundColor(Color.argb(1, 0, 0, 0))// for flickering
+                        content.loadDataWithBaseURL("http://www.arabnews.com/", Methods.formatTextWebView(applicationContext,
                                 loadHtml(node.content!!)),
                                 "text/html", "utf-8", null)
                     }
@@ -79,9 +88,24 @@ class NodeDetailsActivity : AppCompatActivity() {
 
     fun loadHtml(html: String): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
         } else {
             Html.fromHtml(html);
         }.toString()
+    }
+
+    fun configureToolbarWithUpButton(toolbarId: Int) {
+        val toolbar = findViewById<Toolbar>(toolbarId)
+        // set toolbar
+        setSupportActionBar(toolbar)
+        // add click listener on toolbar back arrow
+        toolbar.setNavigationOnClickListener { view -> onBackPressed() }
+        val supportActionBar = supportActionBar
+        // configure back action
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayShowTitleEnabled(false)
+            supportActionBar.setDisplayHomeAsUpEnabled(true)
+            supportActionBar.setDisplayShowHomeEnabled(true)
+        }
     }
 }

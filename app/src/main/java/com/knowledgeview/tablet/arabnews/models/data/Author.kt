@@ -18,4 +18,6 @@ class Author {
     var tid:String=""
     @SerializedName("field_author_image")
     var authorImage:String?=null
+    @SerializedName("description")
+    var description: String? = null
 }

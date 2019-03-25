@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class OpinionDetailsPage : AppCompatActivity() {
+class OpinionDetailsPageActivity : AppCompatActivity() {
 
     private lateinit var nodeViewModel: NodeViewModel
 
@@ -49,10 +49,11 @@ class OpinionDetailsPage : AppCompatActivity() {
                 false)
         AndroidInjection.inject(this)
         val entityID = intent.getStringExtra("entityID")
+        val authorId = intent.getStringExtra("authorID")
         nodeViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(NodeViewModel::class.java)
         //change author id here
-        nodeViewModel.fetchOpinionDetails(entityID, "5771")
+        nodeViewModel.fetchOpinionDetails(entityID, authorId)
         nodeViewModel.getOpinionDetails().observe(this, Observer { nodes ->
             if (nodes != null && !nodes.data.isNullOrEmpty()) {
                 val node = nodes.data[0]

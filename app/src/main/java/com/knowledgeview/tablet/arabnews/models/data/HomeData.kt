@@ -1,8 +1,6 @@
 package com.knowledgeview.tablet.arabnews.models.data
 
 import androidx.annotation.NonNull
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -18,7 +16,9 @@ class HomeData {
     private var pictureLarge: List<String>? = null
     private var categoryID: Int? = null
     @SerializedName("sm_vid_Authors")
-    private var author: List<String>? = null
+    private var authors: List<String>? = null
+    @SerializedName("author_details")
+    private var authorDetails: Author? = null
     @SerializedName("ds_created")
     private var date: Date? = null
     @SerializedName("has_faceimage")
@@ -61,7 +61,6 @@ class HomeData {
         this.hasFace = hasFace
     }
 
-
     fun getDate(): Date? {
         return date
     }
@@ -79,11 +78,11 @@ class HomeData {
     }
 
     fun getAuthor(): List<String>? {
-        return author
+        return authors
     }
 
     fun setAuthor(author: List<String>?) {
-        this.author = author
+        this.authors = author
     }
 
     fun getPictureLarge(): List<String>? {
@@ -101,5 +100,9 @@ class HomeData {
 
     fun setCategoryID(name: Int?) {
         this.categoryID = name
+    }
+
+    fun getAuthorDetails() : Author? {
+        return authorDetails
     }
 }

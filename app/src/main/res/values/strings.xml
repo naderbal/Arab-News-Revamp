@@ -38,4 +38,11 @@
     <string name="enable_notifications">Enable notifications to get latest  news, breaking news, opinion articles an and live video streaming</string>
     <string name="not_now">Not Now</string>
     <string name="turn_on">Yes, turn on</string>
+
+    <!-- Opinions -->
+    <string name="opinions">OPINIONS</string>
+    <string name="top_opinion_articles">TOP OPINION ARTICLES</string>
+    <string name="cartoon">CARTOON</string>
+    <string name="authors">AUTHORS</string>
+    <string name="more">MORE</string>
 </resources>

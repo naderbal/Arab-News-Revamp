@@ -27,6 +27,9 @@ import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import com.knowledgeview.tablet.arabnews.view.adapters.ExpandableListMenuAdapter
 import com.knowledgeview.tablet.arabnews.view.fragments.*
+import com.knowledgeview.tablet.arabnews.view.fragments.opinions.OpinionsListFragment
+import com.knowledgeview.tablet.arabnews.view.fragments.photosGallery.PhotoGalleryFragment
+import com.knowledgeview.tablet.arabnews.view.fragments.videoGallery.VideoGalleryFragment
 import com.knowledgeview.tablet.arabnews.viewmodel.SectionListingViewModel
 import com.srpc.independantminds.model.local.Prefs
 import dagger.android.AndroidInjection
@@ -42,6 +45,15 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
 
     private lateinit var sectionListingViewModel: SectionListingViewModel
+
+    // views
+    lateinit var layoutGreen: RelativeLayout
+    lateinit var layoutWhite: RelativeLayout
+    lateinit var ivGreenLogo: ImageView
+    lateinit var ivWhiteLogo: ImageView
+    lateinit var greenTitle: TextView
+    lateinit var whiteTitle: TextView
+    lateinit var bottomTabs: BottomNavigationView
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -63,12 +75,15 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
-        val greenTitle = findViewById<TextView>(R.id.green_title)
+        greenTitle = findViewById(R.id.tv_green_title)
+        whiteTitle = findViewById(R.id.tv_white_title)
+        ivGreenLogo = findViewById(R.id.iv_logo)
+        ivWhiteLogo = findViewById(R.id.iv_white_logo)
         val close = findViewById<ImageView>(R.id.close)
         notificationLayout = findViewById(R.id.breaking_news)
         notificationTitle = findViewById(R.id.breaking_news_title)
         notificationText = findViewById(R.id.breaking_news_content)
-        val sectionTitle = findViewById<TextView>(R.id.section_title)
+
         close.setOnClickListener {
             notificationLayout!!.visibility = View.GONE
         }
@@ -83,46 +98,39 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
 
-        val layoutGreen = findViewById<RelativeLayout>(R.id.layout_green)
-        val layoutWhite = findViewById<RelativeLayout>(R.id.layout_white)
+        layoutGreen = findViewById(R.id.layout_green)
+        layoutWhite = findViewById(R.id.layout_white)
+
         val w = window
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         AndroidInjection.inject(this)
         val footerView = (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.footer_menu_one, null, false)
         val readingListView = footerView.findViewById<RelativeLayout>(R.id.reading_list_view)
 //        val videosView = footerView.findViewById<RelativeLayout>(R.id.videos_layout)
-        val bottomTabs = findViewById<BottomNavigationView>(R.id.bottom_tabs)
+        bottomTabs = findViewById(R.id.bottom_tabs)
         bottomTabs.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.reading_list -> {
-                    sectionTitle.text = ""
                     if (position != readingListPosition) {
                         position = readingListPosition
                         openFragment(ReadingListFragment())
-                        layoutWhite.visibility = View.GONE
-                        layoutGreen.visibility = View.VISIBLE
-                        greenTitle.text = getString(R.string.reading_list)
+                        setToolbarGreenEnabled(true, getString(R.string.reading_list))
                         expandable!!.getPosition(-1)
                     }
                 }
                 R.id.home -> {
-                    sectionTitle.text = ""
                     if (position != 0) {
                         position = 0
                         expandable!!.getPosition(position)
-                        openFragment(HomeFragment())
-                        layoutWhite.visibility = View.VISIBLE
-                        layoutGreen.visibility = View.GONE
+                        openFragment(getHomeFragment())
+                        setToolbarGreenEnabled(false, null)
                     }
                 }
                 R.id.videos -> {
-                    sectionTitle.text = ""
                     if (position != videoListPosition) {
                         position = videoListPosition
                         openFragment(VideosFragment())
-                        layoutWhite.visibility = View.GONE
-                        greenTitle.text = getString(R.string.videos)
-                        layoutGreen.visibility = View.VISIBLE
+                        setToolbarGreenEnabled(true, getString(R.string.videos))
                         expandable!!.getPosition(videoListPosition)
 
                     }
@@ -141,9 +149,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 position = readingListPosition
                 bottomTabs.selectedItemId = R.id.reading_list
                 openFragment(ReadingListFragment())
-                layoutWhite.visibility = View.GONE
-                layoutGreen.visibility = View.VISIBLE
-                greenTitle.text = getString(R.string.reading_list)
+                setToolbarGreenEnabled(true, getString(R.string.reading_list))
                 expandable!!.getPosition(-1)
             }
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -177,7 +183,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     readingListPosition = menus.size
                     expandable = ExpandableListMenuAdapter(applicationContext, menus)
                     listMenu.setAdapter(expandable)
-                    openFragment(HomeFragment())
+                    openFragment(getHomeFragment())
                 }
             }
         })
@@ -202,7 +208,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             screenListingFragment.arguments = bundle
             openFragment(screenListingFragment)
             drawerLayout.closeDrawer(GravityCompat.START)
-            sectionTitle.text = menus[groupPosition].getChildren()!![childPosition].getTitle()
             layoutWhite.visibility = View.VISIBLE
             layoutGreen.visibility = View.GONE
             false
@@ -212,33 +217,36 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 position = groupPosition
                 when {
                     groupPosition == videoListPosition -> {
-                        openFragment(VideosFragment())
-                        sectionTitle.text = ""
+                        openFragment(VideoGalleryFragment())
                         layoutWhite.visibility = View.GONE
-                        greenTitle.text = getString(R.string.videos)
+                        //greenTitle.text = getString(R.string.videos)
                         layoutGreen.visibility = View.VISIBLE
                         expandable!!.getPosition(videoListPosition)
                         bottomTabs.selectedItemId=R.id.videos
                     }
                     groupPosition == 0 -> {
-                        openFragment(HomeFragment())
+                        openFragment(getHomeFragment())
                         bottomTabs.selectedItemId = R.id.home
                     }
                     position==opinionListPosition -> {
-                        openFragment(EmptyFragment())
+                        openFragment(OpinionsListFragment())
+                        setToolbarGreenEnabled(true, getString(R.string.opinions))
                     }
                     position==photosListPosition -> {
-                        openFragment(EmptyFragment())
+                        openFragment(PhotoGalleryFragment())
                     }
                     menus[groupPosition].getChildren().isNullOrEmpty() -> {
                         val screenListingFragment = ScreenListingFragment()
+                        screenListingFragment.listPositionListener = object  : ListPostionListener {
+                            override fun onListPositionChanged(position: Int) {
+                                setToolbarGreenEnabled(position >= 1, menus[groupPosition].getTitle())
+                            }
+                        }
                         val bundle = Bundle()
                         bundle.putString("tid", menus[groupPosition].getTid())
                         screenListingFragment.arguments = bundle
                         openFragment(screenListingFragment)
-                        sectionTitle.text = menus[groupPosition].getTitle()
-                        layoutWhite.visibility = View.VISIBLE
-                        layoutGreen.visibility = View.GONE
+                        setToolbarGreenEnabled(false, menus[groupPosition].getTitle())
                     }
                 }
                 expandable!!.positionClicked = groupPosition
@@ -246,6 +254,43 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
             false
         }
+    }
+
+    private fun setToolbarGreenEnabled(isEnabled : Boolean, title: String?) {
+        if (!isEnabled) {
+            layoutWhite.visibility = View.VISIBLE
+            layoutGreen.visibility = View.GONE
+            if (title != null) {
+                whiteTitle.visibility = View.VISIBLE
+                whiteTitle.text = title
+                ivWhiteLogo.visibility = View.GONE
+            } else {
+                ivWhiteLogo.visibility = View.VISIBLE
+                whiteTitle.visibility = View.GONE
+            }
+        } else {
+            layoutWhite.visibility = View.GONE
+            layoutGreen.visibility = View.VISIBLE
+            if (title != null) {
+                greenTitle.text = title
+                ivGreenLogo.visibility = View.GONE
+                greenTitle.visibility = View.VISIBLE
+            } else {
+                ivGreenLogo.visibility = View.VISIBLE
+                greenTitle.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun getHomeFragment() : HomeFragment {
+        val homeFragment = HomeFragment()
+        homeFragment.listPositionListener = object : ListPostionListener {
+            override fun onListPositionChanged(position: Int) {
+                setToolbarGreenEnabled(position >= 1, null)
+                bottomTabs.visibility = if (position >= 1) View.VISIBLE else View.GONE
+            }
+        }
+        return homeFragment
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

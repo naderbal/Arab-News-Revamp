@@ -40,6 +40,11 @@ class ScreenListingFragment : DaggerFragment() {
     private var adapter: NewsListingAdapter? = null
     private var dragPosition: Int = -1
     private var news: MutableList<SectionListing> = mutableListOf()
+
+    lateinit var newsListing: RecyclerView
+    var listPositionListener : ListPostionListener? = null
+    lateinit var linearLayoutManager: LinearLayoutManager
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
@@ -54,15 +59,16 @@ class ScreenListingFragment : DaggerFragment() {
             if (!TextUtils.isEmpty(tid)) {
                 p = 0
                 news = mutableListOf()
-                val newsListing = view.findViewById<RecyclerView>(R.id.news_listing)
-                val layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-                newsListing.layoutManager = layoutManager
+
+                newsListing = view.findViewById<RecyclerView>(R.id.news_listing)
+                linearLayoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+                newsListing.layoutManager = linearLayoutManager
                 news = newsDao.getAllListing(tid!!.toInt())
                 if (!news.isNullOrEmpty()) progressBar!!.visibility = View.GONE
                 adapter = NewsListingAdapter(context!!, news)
                 newsListing.adapter = adapter
                 refreshNews(tid!!)
-                newsListing.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+                newsListing.addOnScrollListener(object : EndlessScrollListener(linearLayoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                         if (news.size < total) {
                             p++
@@ -73,6 +79,16 @@ class ScreenListingFragment : DaggerFragment() {
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        newsListing.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                listPositionListener?.onListPositionChanged(linearLayoutManager.findFirstVisibleItemPosition())
+            }
+        })
     }
 
     private val dragListen = View.OnDragListener { v, event ->

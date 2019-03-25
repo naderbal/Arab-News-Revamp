@@ -83,6 +83,30 @@ class ApplicationModule {
 
     @Singleton
     @Provides
+    fun provideRetrofitOpinionListing(retrofit: Retrofit): PostOpinionsList {
+        return retrofit.create(PostOpinionsList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitPhotoGalleryListing(retrofit: Retrofit): PostPhotoGalleryList {
+        return retrofit.create(PostPhotoGalleryList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitVideoGalleryListing(retrofit: Retrofit): PostVideoGalleryList {
+        return retrofit.create(PostVideoGalleryList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitAuthorOpinionsListing(retrofit: Retrofit): PostAuthorOpinionsList {
+        return retrofit.create(PostAuthorOpinionsList::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideDb(context: Context): ArabNewsDatabase {
         return Room
                 .databaseBuilder(context, ArabNewsDatabase::class.java, "ArabNewsDatabase.db")

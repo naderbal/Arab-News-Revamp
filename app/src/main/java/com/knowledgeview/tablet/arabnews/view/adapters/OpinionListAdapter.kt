@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.models.data.HomeData
 import com.knowledgeview.tablet.arabnews.utils.Methods
-import com.knowledgeview.tablet.arabnews.view.NodeDetailsActivity
-import com.knowledgeview.tablet.arabnews.view.OpinionDetailsPage
+import com.knowledgeview.tablet.arabnews.view.OpinionDetailsPageActivity
 import com.knowledgeview.tablet.arabnews.view.ui.CircleTransform
 import com.knowledgeview.tablet.arabnews.view.ui.CustomShadowBuilder
 import com.squareup.picasso.Picasso
@@ -41,8 +40,10 @@ class OpinionListAdapter(private val context: Context,private val opinions: List
             itemView.author.text = opinion.getAuthor()!![0]
         if (!opinion.getLabel().isNullOrBlank())
             itemView.label.text = opinion.getLabel()
-        if (opinion.getDate() != null)
-            itemView.date.text = Methods.dateFormatterString(opinion.getDate()!!)
+        if (opinion.getDate() != null) {
+            val formattedDate = Methods.dateFormatterString(opinion.getDate()!!)
+            itemView.date.text = formattedDate
+        }
         if(isDrag) {
             itemView.authorBackground.tag = "$groupPosition - $position"
             itemView.authorBackground.setOnLongClickListener { v: View ->
@@ -61,10 +62,11 @@ class OpinionListAdapter(private val context: Context,private val opinions: List
             }
         }
         itemView.authorBackground.setOnClickListener {
-            val intent = Intent(context, OpinionDetailsPage::class.java)
+            val intent = Intent(context, OpinionDetailsPageActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             //add author id
             intent.putExtra("entityID",opinion.getEntityID())
+            intent.putExtra("authorID",opinion.getAuthorDetails()?.tid)
             context.startActivity(intent)
         }
     }

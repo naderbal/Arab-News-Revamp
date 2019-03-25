@@ -71,21 +71,32 @@
             <RelativeLayout
                 android:id="@+id/layout_white"
                 android:layout_width="match_parent"
-                android:background="@drawable/shadow"
-                android:layout_height="35dp">
-
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_height="52dp">
 
                 <ImageView
                     android:id="@+id/burger_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/burger_icon"
                     android:tint="@color/white" />
 
+                <TextView
+                    android:id="@+id/tv_white_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/isento_bold"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:textSize="20sp" />
+
                 <ImageView
+                    android:id="@+id/iv_white_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_centerInParent="true"
@@ -97,7 +108,7 @@
             <RelativeLayout
                 android:id="@+id/layout_green"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:background="#EEF1E9"
                 android:visibility="gone">
 
@@ -106,37 +117,38 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="12dp"
                     android:elevation="5dp"
                     android:src="@drawable/burger_icon"
                     android:tint="@color/colorAccent" />
 
                 <TextView
-                    android:id="@+id/green_title"
+                    android:id="@+id/tv_green_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/isento_bold"
                     android:text="@string/videos"
                     android:textColor="@color/colorAccent"
+                    android:visibility="gone"
                     android:textSize="20sp" />
-            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/section_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="45dp"
-                android:fontFamily="@font/isento"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+                <ImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/logo_header"
+                    android:tint="@color/black" />
+            </RelativeLayout>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_alignParentBottom="true"
+                android:visibility="visible"
                 android:background="@color/light_green"
                 app:itemIconTint="@drawable/bottom_tabs_selector"
                 app:labelVisibilityMode="unlabeled"

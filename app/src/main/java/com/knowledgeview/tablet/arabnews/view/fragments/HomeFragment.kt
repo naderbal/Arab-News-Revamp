@@ -18,15 +18,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.models.data.ReadingList
-import com.knowledgeview.tablet.arabnews.models.data.SectionListing
 import com.knowledgeview.tablet.arabnews.models.data.Term
 import com.knowledgeview.tablet.arabnews.models.local.DaoAccess
 import com.knowledgeview.tablet.arabnews.view.adapters.HomeListingAdapter
-import com.knowledgeview.tablet.arabnews.view.adapters.ReadingListAdapter
 import com.knowledgeview.tablet.arabnews.viewmodel.HomeListingViewModel
-import com.knowledgeview.tablet.arabnews.viewmodel.ReadingListViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
+
 
 class HomeFragment : DaggerFragment() {
 
@@ -38,6 +36,11 @@ class HomeFragment : DaggerFragment() {
     private var groupPosition: Int = -1
     private var terms: MutableList<Term> = mutableListOf()
     private lateinit var homeListViewModel: HomeListingViewModel
+    lateinit var homeListing : RecyclerView
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+    var listPositionListener : ListPostionListener? = null
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
@@ -45,9 +48,9 @@ class HomeFragment : DaggerFragment() {
         val progressBar = view.findViewById<ProgressBar>(R.id.pb)
         val readingListFloating = view.findViewById<FloatingActionButton>(R.id.reading_listing_floating)
         readingListFloating.setOnDragListener(dragListen)
-        val homeListing = view.findViewById<RecyclerView>(R.id.home_listing)
-        homeListing.layoutManager = LinearLayoutManager(context!!,
-                RecyclerView.VERTICAL, false)
+        homeListing = view.findViewById(R.id.home_listing)
+        linearLayoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+        homeListing.layoutManager = linearLayoutManager
         homeListViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(HomeListingViewModel::class.java)
         progressBar.visibility = View.VISIBLE
@@ -69,6 +72,16 @@ class HomeFragment : DaggerFragment() {
             }
         })
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        homeListing.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                listPositionListener?.onListPositionChanged(linearLayoutManager.findFirstVisibleItemPosition())
+            }
+        })
     }
 
     private val dragListen = View.OnDragListener { v, event ->

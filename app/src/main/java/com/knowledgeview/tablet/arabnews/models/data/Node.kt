@@ -30,4 +30,6 @@ class Node {
     var authorObject: Author? = null
     @SerializedName("opinion_list")
     var opinionList:List<HomeData>?=null
+    @SerializedName("sm_field_video_url")
+    var videoUrl:List<String>?=null
 }

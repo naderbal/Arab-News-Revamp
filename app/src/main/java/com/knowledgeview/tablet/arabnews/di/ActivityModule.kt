@@ -1,9 +1,6 @@
 package com.knowledgeview.tablet.arabnews.di
 
-import com.knowledgeview.tablet.arabnews.view.MainActivity
-import com.knowledgeview.tablet.arabnews.view.NodeDetailsActivity
-import com.knowledgeview.tablet.arabnews.view.OpinionDetailsPage
-import com.knowledgeview.tablet.arabnews.view.TutorialActivity
+import com.knowledgeview.tablet.arabnews.view.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,7 +17,11 @@ abstract class ActivityModule {
     abstract fun contributeNodeDetailsActivity(): NodeDetailsActivity
 
     @ContributesAndroidInjector
-    abstract fun contributeOpinionDetailsActivity(): OpinionDetailsPage
+    abstract fun contributeOpinionDetailsActivity(): OpinionDetailsPageActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributeVideoDetailsActivity(): VideoDetailsActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributeAuthorDetailsActivity(): AuthorDetailsActivity
 }
