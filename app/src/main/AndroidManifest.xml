@@ -23,15 +23,15 @@
         </activity>
 
         <activity android:name=".view.NotificationActivity"/>
-        <activity android:name=".view.OpinionDetailsPageActivity"/>
-        <activity android:name=".view.NodeDetailsActivity"/>
+        <activity android:name=".view.OpinionDetailsActivity" android:theme="@style/DetailsTheme"/>
+        <activity android:name=".view.NodeDetailsActivity" android:theme="@style/DetailsTheme"/>
         <activity android:name=".view.WebViewActivity"/>
         <activity android:name=".view.PDFActivity"/>
         <activity android:name=".view.MainActivity"/>
         <activity android:name=".view.TutorialActivity"/>
-        <activity android:name=".view.ArticleDetailsActivity"/>
+        <activity android:name=".view.ArticleDetailsActivity" android:theme="@style/DetailsTheme"/>
         <activity android:name=".view.VideoDetailsActivity"/>
-        <activity android:name=".view.AuthorDetailsActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".view.AuthorDetailsActivity" android:theme="@style/DetailsTheme"/>
 
         <service android:name="com.knowledgeview.tablet.arabnews.view.services.FirebaseMessageService">
             <intent-filter>

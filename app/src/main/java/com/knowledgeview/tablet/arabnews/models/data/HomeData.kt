@@ -15,7 +15,7 @@ class HomeData {
     @SerializedName("sm_field_binary")
     private var pictureLarge: List<String>? = null
     private var categoryID: Int? = null
-    @SerializedName("sm_vid_Authors")
+    @SerializedName("sm_field_author")
     private var authors: List<String>? = null
     @SerializedName("author_details")
     private var authorDetails: Author? = null

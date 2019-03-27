@@ -68,14 +68,14 @@ class ScreenListingFragment : DaggerFragment() {
                 adapter = NewsListingAdapter(context!!, news)
                 newsListing.adapter = adapter
                 refreshNews(tid!!)
-                newsListing.addOnScrollListener(object : EndlessScrollListener(linearLayoutManager) {
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                        if (news.size < total) {
-                            p++
-                            refreshNews(tid!!)
-                        }
-                    }
-                })
+//                newsListing.addOnScrollListener(object : EndlessScrollListener(linearLayoutManager) {
+//                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+//                        if (news.size < total) {
+//                            p++
+//                            refreshNews(tid!!)
+//                        }
+//                    }
+//                })
             }
         }
         return view

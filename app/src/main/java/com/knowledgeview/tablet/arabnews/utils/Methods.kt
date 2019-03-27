@@ -23,5 +23,10 @@ class Methods {
             html = html.replace("{{description}}", content)
             return html
         }
+
+        fun pixelsToSp(context: Context, px: Float): Float {
+            val scaledDensity = context.resources.displayMetrics.scaledDensity
+            return px / scaledDensity
+        }
     }
 }

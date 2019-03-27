@@ -18,7 +18,7 @@ class Node {
     var content: String? = null
     @SerializedName("category_name")
     var categoryName: List<String>? = null
-    @SerializedName("sm_field_binary")
+    @SerializedName("picture_small")
     var images: List<String>? = null
     @SerializedName("sm_field_bullets")
     var bullets: List<String>? = null
@@ -32,4 +32,6 @@ class Node {
     var opinionList:List<HomeData>?=null
     @SerializedName("sm_field_video_url")
     var videoUrl:List<String>?=null
+    @SerializedName("link")
+    var link: String? = null
 }

@@ -7,8 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
-import android.util.TypedValue
-import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ImageView
@@ -24,95 +22,97 @@ import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.models.data.Node
 import com.knowledgeview.tablet.arabnews.utils.Methods
 import com.knowledgeview.tablet.arabnews.view.adapters.BulletListAdapter
+import com.knowledgeview.tablet.arabnews.view.adapters.OpinionListAdapter
 import com.knowledgeview.tablet.arabnews.view.ui.FontSize
-import com.knowledgeview.tablet.arabnews.viewmodel.NodeViewModel
+import com.knowledgeview.tablet.arabnews.viewmodel.OpinionDetailsViewModel
 import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class NodeDetailsActivity : AppCompatActivity() {
 
+class OpinionDetailsActivity : AppCompatActivity() {
 
-    private lateinit var nodeViewModel: NodeViewModel
+    private lateinit var opinionViewModel: OpinionDetailsViewModel
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    // view
     lateinit var ivShare: ImageView
     lateinit var ivFontSize: ImageView
     lateinit var content : WebView
     lateinit var author : TextView
     lateinit var date : TextView
 
-    var sharableLink: String? = null
-
+    // data
     var fontSize = FontSize.BIG
-
+    var sharableLink: String? = null
     var node : Node? = null
 
     var bulletListAdapter : BulletListAdapter? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.node_details_activity)
+        setContentView(R.layout.opinion_details_page)
         configureToolbarWithUpButton(R.id.toolbar)
+
+        val bullets = findViewById<RecyclerView>(R.id.bullets)
 
         ivShare = findViewById(R.id.iv_share)
         ivFontSize = findViewById(R.id.iv_font_size)
         content = findViewById(R.id.content)
-        author = findViewById(R.id.author)
+        author = findViewById(R.id.author_name)
         date = findViewById(R.id.date)
-        val image = findViewById<ImageView>(R.id.news_image)
-        val bullets = findViewById<RecyclerView>(R.id.bullets)
 
         bullets.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL
                 , false)
+        val authorImage = findViewById<ImageView>(R.id.author_image)
         val label = findViewById<TextView>(R.id.headline)
-        val categoryName = findViewById<TextView>(R.id.category_name)
-
+        val content = findViewById<WebView>(R.id.content)
+        val opinionList = findViewById<RecyclerView>(R.id.opinion_list)
+        opinionList.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,
+                false)
         AndroidInjection.inject(this)
         val entityID = intent.getStringExtra("entityID")
-
-        nodeViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(NodeViewModel::class.java)
-
-        nodeViewModel.fetchDetails(entityID)
-
-        nodeViewModel.getNodeDetails().observe(this, Observer { nodes ->
-            if (nodes != null && !nodes.data.isNullOrEmpty()) {
-                node = nodes.data[0]
+        val authorId = intent.getStringExtra("authorID")
+        opinionViewModel = ViewModelProviders.of(this, viewModelFactory).get(OpinionDetailsViewModel::class.java)
+        //change author id here
+        opinionViewModel.fetchOpinionDetails(entityID, authorId)
+        opinionViewModel.getOpinionDetails().observe(this, Observer { nodes ->
+            if (nodes?.data != null) {
+                node = nodes.data
                 sharableLink = node!!.link
+
                 if (!TextUtils.isEmpty(node!!.label)) label.text = node!!.label
-                if (!node!!.categoryName.isNullOrEmpty()) categoryName.text = node!!.categoryName!![0]
                 if (!TextUtils.isEmpty(node!!.content)) {
                     content.webChromeClient = WebChromeClient()
                     if (!TextUtils.isEmpty(node!!.content)) {
-                        loadWebView(0)
+                        content.settings.javaScriptEnabled = true
+                        content.loadDataWithBaseURL("http://www.arabnews.com/", Methods.formatTextWebView(applicationContext,
+                                loadHtml(node!!.content!!)),
+                                "text/html", "utf-8", null)
                     }
-                }
-                if (!node!!.images.isNullOrEmpty())
-                    Picasso.get().load(node!!.images!![0]).fit().centerCrop()
-                            .into(image)
-                if (!node!!.author.isNullOrEmpty()) {
-                    author.visibility = View.VISIBLE
-                    author.text = node!!.author!![0]
-                } else{
-                    author.visibility = View.GONE
-                }
-                if (node!!.date != null)
-                    date.text = Methods.dateFormatterString(node!!.date!!)
-                if (!node!!.bullets.isNullOrEmpty()) {
-                    bulletListAdapter = BulletListAdapter(node!!.bullets!!, false)
-                    bullets.adapter = bulletListAdapter
+                    if (node!!.authorObject != null) {
+                        if (!node!!.authorObject!!.name.isNullOrEmpty())
+                            author.text = node!!.authorObject!!.name
+                        if (!node!!.authorObject!!.authorImage.isNullOrEmpty())
+                            Picasso.get().load(node!!.authorObject!!.authorImage)
+                                    .fit().centerCrop().into(authorImage)
+                    }
+                    if (node!!.date != null)
+                        date.text = Methods.dateFormatterString(node!!.date!!)
+                    if (!node!!.bullets.isNullOrEmpty())
+                        bullets.adapter = BulletListAdapter(node!!.bullets!!, false)
+                    if (!node!!.opinionList.isNullOrEmpty())
+                        bulletListAdapter = BulletListAdapter(node!!.bullets!!, false)
+                        opinionList.adapter = bulletListAdapter
                 }
             }
-
         })
 
         ivShare.setOnClickListener {
             if (sharableLink != null) {
-                val sharingIntent = Intent(Intent.ACTION_SEND)
+                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
                 sharingIntent.type = "text/plain"
                 val shareBody = sharableLink
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
@@ -153,12 +153,11 @@ class NodeDetailsActivity : AppCompatActivity() {
                 loadHtml(node?.content!!)),
                 "text/html", "utf-8", null)
     }
-
-    fun loadHtml(html: String): String {
+    private fun loadHtml(html: String): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
         } else {
-            Html.fromHtml(html);
+            Html.fromHtml(html)
         }.toString()
     }
 

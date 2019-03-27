@@ -227,6 +227,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     groupPosition == 0 -> {
                         openFragment(getHomeFragment())
                         bottomTabs.selectedItemId = R.id.home
+                        setToolbarGreenEnabled(false, null)
                     }
                     position==opinionListPosition -> {
                         openFragment(OpinionsListFragment())

@@ -24,7 +24,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/orange"
+        app:backgroundTint="@color/orange"
         app:srcCompat="@drawable/reading_list"
         android:tint="@color/white" />
 </RelativeLayout>

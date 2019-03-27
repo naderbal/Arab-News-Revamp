@@ -53,8 +53,8 @@ class CartoonListAdapter(private val context: Context,private val readingList: L
         when (holder.itemViewType) {
             0 -> {
                 val itemView = holder as CartoonListAdapter.ViewHeader
-                if (!readingItem.getPictureLarge().isNullOrEmpty()) {
-                    Picasso.get().load(readingItem.getPictureLarge()!![0]).fit().centerCrop().into(itemView.newsImage)
+                if (!readingItem.getPictureSmall().isNullOrEmpty()) {
+                    Picasso.get().load(readingItem.getPictureSmall()!![0]).fit().centerCrop().into(itemView.newsImage)
                 }
                 if (!readingItem.getLabel().isNullOrEmpty()) itemView.newsHeadline.text = readingItem.getLabel()
                 if (!readingItem.getAuthor().isNullOrEmpty()) itemView.author.text = readingItem.getAuthor()!![0]
@@ -76,17 +76,17 @@ class CartoonListAdapter(private val context: Context,private val readingList: L
                     )
                 }
 
-                itemView.cartoonBackground.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingItem.getEntityID())
-                    context.startActivity(intent)
+                itemView.newsImage.setOnClickListener {
+                    openNodeDetails(readingItem)
+                }
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeDetails(readingItem)
                 }
             }
             1 -> {
                 val itemView = holder as CartoonListAdapter.ViewItem
-                if (!readingItem.getPictureLarge().isNullOrEmpty()) {
-                    Picasso.get().load(readingItem.getPictureLarge()!![0]).fit().centerCrop().into(itemView.newsImage)
+                if (!readingItem.getPictureSmall().isNullOrEmpty()) {
+                    Picasso.get().load(readingItem.getPictureSmall()!![0]).fit().centerCrop().into(itemView.newsImage)
                 }
                 if (!readingItem.getAuthor().isNullOrEmpty()) itemView.author.text = readingItem.getAuthor()!![0]
                 if (!readingItem.getLabel().isNullOrEmpty()) itemView.newsHeadline.text = readingItem.getLabel()
@@ -107,14 +107,21 @@ class CartoonListAdapter(private val context: Context,private val readingList: L
                             0           // flags (not currently used, set to 0)
                     )
                 }
-                itemView.cartoonBackground.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingItem.getEntityID())
-                    context.startActivity(intent)
+                itemView.newsImage.setOnClickListener {
+                    openNodeDetails(readingItem)
+                }
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeDetails(readingItem)
                 }
             }
         }
+    }
+
+    private fun openNodeDetails(readingItem: HomeData) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", readingItem.getEntityID())
+        context.startActivity(intent)
     }
 
     private class ViewItem(itemView: View) : RecyclerView.ViewHolder(itemView) {

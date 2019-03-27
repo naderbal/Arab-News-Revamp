@@ -17,7 +17,7 @@ abstract class ActivityModule {
     abstract fun contributeNodeDetailsActivity(): NodeDetailsActivity
 
     @ContributesAndroidInjector
-    abstract fun contributeOpinionDetailsActivity(): OpinionDetailsPageActivity
+    abstract fun contributeOpinionDetailsActivity(): OpinionDetailsActivity
 
     @ContributesAndroidInjector
     abstract fun contributeVideoDetailsActivity(): VideoDetailsActivity

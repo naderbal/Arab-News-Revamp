@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="280dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news"
     android:background="#F7F7F9">
 
@@ -16,36 +17,42 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_below="@+id/item_news_image"
         android:maxLines="3"
-        android:layout_above="@+id/author"
+        android:layout_above="@+id/container_bottom"
         android:textColor="@color/black"
         android:fontFamily="@font/playfair"
         app:autoSizeTextType="uniform" />
 
-    <TextView
-        android:id="@+id/author"
+    <LinearLayout
+        android:id="@+id/container_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/grey"
-        android:fontFamily="@font/isento"
-        android:textSize="14sp" />
+        android:layout_marginStart="16dp">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/author"
-        android:fontFamily="@font/isento"
-        android:textColor="@color/grey"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/isento"
+            tools:text="Nader Baltaji"
+            android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/isento"
+            android:textColor="@color/grey"
+            tools:text="23 March 2019"
+            android:textSize="12sp" />
+    </LinearLayout>
 </RelativeLayout>

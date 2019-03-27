@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.models.data.HomeData
 import com.knowledgeview.tablet.arabnews.utils.Methods
-import com.knowledgeview.tablet.arabnews.view.OpinionDetailsPageActivity
+import com.knowledgeview.tablet.arabnews.view.OpinionDetailsActivity
 import com.knowledgeview.tablet.arabnews.view.ui.CircleTransform
 import com.knowledgeview.tablet.arabnews.view.ui.CustomShadowBuilder
 import com.squareup.picasso.Picasso
@@ -33,8 +33,8 @@ class OpinionListAdapter(private val context: Context,private val opinions: List
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemView = holder as OpinionListAdapter.ViewHeader
         val opinion = opinions[position]
-        if (!opinion.getPictureLarge().isNullOrEmpty())
-            Picasso.get().load(opinion.getPictureLarge()!![0])
+        if (!opinion.getPictureSmall().isNullOrEmpty())
+            Picasso.get().load(opinion.getPictureSmall()!![0])
                     .transform(CircleTransform()).fit().centerCrop().into(itemView.authorImage)
         if (!opinion.getAuthor().isNullOrEmpty())
             itemView.author.text = opinion.getAuthor()!![0]
@@ -61,14 +61,21 @@ class OpinionListAdapter(private val context: Context,private val opinions: List
                 )
             }
         }
-        itemView.authorBackground.setOnClickListener {
-            val intent = Intent(context, OpinionDetailsPageActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            //add author id
-            intent.putExtra("entityID",opinion.getEntityID())
-            intent.putExtra("authorID",opinion.getAuthorDetails()?.tid)
-            context.startActivity(intent)
+        itemView.authorImage.setOnClickListener {
+            openNode(opinion)
         }
+        itemView.label.setOnClickListener {
+            openNode(opinion)
+        }
+    }
+
+    private fun openNode(opinion: HomeData) {
+        val intent = Intent(context, OpinionDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        //add author id
+        intent.putExtra("entityID", opinion.getEntityID())
+        intent.putExtra("authorID", opinion.getAuthorDetails()?.tid)
+        context.startActivity(intent)
     }
 
     private class ViewHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
