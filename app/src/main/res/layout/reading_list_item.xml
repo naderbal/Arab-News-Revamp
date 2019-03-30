@@ -42,7 +42,6 @@
             android:textColor="@color/grey"
             android:textSize="10sp"
             tools:text="Nader Baltaji"
-            tools:visibility="g"
             android:maxLines="1"/>
 
         <TextView

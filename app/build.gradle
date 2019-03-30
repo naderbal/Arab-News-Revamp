@@ -8,15 +8,23 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'release'
+            keyPassword 'Andr01d'
+            storeFile file('/Users/naderbaltaji/Downloads/arabnewsKeys/keystore 3/keystore')
+            storePassword 'Kn0wledgeV1ew'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.knowledgeview.tablet.arabnews"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 8
-        versionName "3.0"
+        versionCode 11
+        versionName "3.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [onesignal_app_id: "7501a2f7-fe3d-40fb-808b-3db2925d7a8e",
+        manifestPlaceholders = [onesignal_app_id               : "7501a2f7-fe3d-40fb-808b-3db2925d7a8e",
                                 // Project number pulled from dashboard, local value is ignored.
                                 onesignal_google_project_number: "REMOTE"]
     }
@@ -24,7 +32,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+    }
+    productFlavors {
     }
 }
 

@@ -14,6 +14,6 @@ class TutorialPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getCount(): Int {
-        return 2
+        return 1
     }
 }

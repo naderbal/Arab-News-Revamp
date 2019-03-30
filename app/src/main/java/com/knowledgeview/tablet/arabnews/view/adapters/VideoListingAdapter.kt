@@ -6,19 +6,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.models.data.HomeData
-import com.knowledgeview.tablet.arabnews.models.data.Video
 import com.knowledgeview.tablet.arabnews.utils.Methods
 import com.knowledgeview.tablet.arabnews.view.ui.CustomShadowBuilder
 import com.squareup.picasso.Picasso
 
 class VideoListingAdapter(private var context: Context, private var videos:List<HomeData>, val listener: VideoGalleryListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_video, parent, false)
         return VideoListingAdapter.ViewItem(v)
     }
 
@@ -55,9 +55,16 @@ class VideoListingAdapter(private var context: Context, private var videos:List<
         itemView.newsImage.setOnClickListener {
             listener.onVideoItemClicked(section)
         }
+        itemView.ivPlay.setOnClickListener {
+            listener.onVideoItemClicked(section)
+        }
+        itemView.newsHeadline.setOnClickListener {
+            listener.onVideoItemClicked(section)
+        }
     }
 
     private class ViewItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivPlay = itemView.findViewById<ImageView>(R.id.iv_play)!!
         val newsImage = itemView.findViewById<ImageView>(R.id.item_news_image)!!
         val newsHeadline = itemView.findViewById<TextView>(R.id.item_news_headline)!!
         val author = itemView.findViewById<TextView>(R.id.author)!!

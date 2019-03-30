@@ -81,11 +81,11 @@ class NewsHeaderAdapter(private val context: Context, private val readingList: L
                             0           // flags (not currently used, set to 0)
                     )
                 }
-                itemView.news.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingList[position].getEntityID())
-                    context.startActivity(intent)
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeActivity(position)
+                }
+                itemView.newsImage.setOnClickListener {
+                    openNodeActivity(position)
                 }
             }
             1 -> {
@@ -117,14 +117,21 @@ class NewsHeaderAdapter(private val context: Context, private val readingList: L
                             0           // flags (not currently used, set to 0)
                     )
                 }
-                itemView.news.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingList[position].getEntityID())
-                    context.startActivity(intent)
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeActivity(position)
+                }
+                itemView.newsImage.setOnClickListener {
+                    openNodeActivity(position)
                 }
             }
         }
+    }
+
+    private fun openNodeActivity(position: Int) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", readingList[position].getEntityID())
+        context.startActivity(intent)
     }
 
     private class ViewItem(itemView: View) : RecyclerView.ViewHolder(itemView) {

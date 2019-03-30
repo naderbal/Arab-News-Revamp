@@ -27,6 +27,7 @@ import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import com.knowledgeview.tablet.arabnews.view.adapters.ExpandableListMenuAdapter
 import com.knowledgeview.tablet.arabnews.view.fragments.*
+import com.knowledgeview.tablet.arabnews.view.fragments.face.FaceGalleryFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.opinions.OpinionsListFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.photosGallery.PhotoGalleryFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.videoGallery.VideoGalleryFragment
@@ -202,19 +203,32 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         intentFilter.addAction(broadcastAction)
         registerReceiver(notificationReceiver, intentFilter)
         listMenu.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
-            val screenListingFragment = ScreenListingFragment()
             val bundle = Bundle()
-            bundle.putString("tid", menus[groupPosition].getChildren()!![childPosition].getTid())
-            screenListingFragment.arguments = bundle
-            openFragment(screenListingFragment)
-            drawerLayout.closeDrawer(GravityCompat.START)
-            layoutWhite.visibility = View.VISIBLE
-            layoutGreen.visibility = View.GONE
+            val parentSection = menus[groupPosition].getChildren()!![childPosition]
+            bundle.putString("tid", parentSection.getTid())
+            val title = parentSection.getTitle()
+            if (title.equals("The face")) {
+                val fragment = FaceGalleryFragment()
+                fragment.arguments = bundle
+                openFragment(fragment)
+                drawerLayout.closeDrawer(GravityCompat.START)
+                setToolbarGreenEnabled(false, "The Face")
+                layoutWhite.visibility = View.VISIBLE
+                layoutGreen.visibility = View.GONE
+            } else {
+                val screenListingFragment = ScreenListingFragment()
+                screenListingFragment.arguments = bundle
+                openFragment(screenListingFragment)
+                drawerLayout.closeDrawer(GravityCompat.START)
+                layoutWhite.visibility = View.VISIBLE
+                layoutGreen.visibility = View.GONE
+            }
             false
         }
         listMenu.setOnGroupClickListener { _, _, groupPosition, _ ->
             if (position != groupPosition) {
                 position = groupPosition
+                var closeDrawer = false
                 when {
                     groupPosition == videoListPosition -> {
                         openFragment(VideoGalleryFragment())
@@ -223,19 +237,24 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                         layoutGreen.visibility = View.VISIBLE
                         expandable!!.getPosition(videoListPosition)
                         bottomTabs.selectedItemId=R.id.videos
+                        closeDrawer = true
                     }
                     groupPosition == 0 -> {
                         openFragment(getHomeFragment())
                         bottomTabs.selectedItemId = R.id.home
                         setToolbarGreenEnabled(false, null)
+                        closeDrawer = true
                     }
                     position==opinionListPosition -> {
                         openFragment(OpinionsListFragment())
                         setToolbarGreenEnabled(true, getString(R.string.opinions))
+                        closeDrawer = true
                     }
                     position==photosListPosition -> {
                         openFragment(PhotoGalleryFragment())
+                        closeDrawer = true
                     }
+
                     menus[groupPosition].getChildren().isNullOrEmpty() -> {
                         val screenListingFragment = ScreenListingFragment()
                         screenListingFragment.listPositionListener = object  : ListPostionListener {
@@ -248,10 +267,23 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                         screenListingFragment.arguments = bundle
                         openFragment(screenListingFragment)
                         setToolbarGreenEnabled(false, menus[groupPosition].getTitle())
+                        closeDrawer = true
                     }
                 }
                 expandable!!.positionClicked = groupPosition
-                drawerLayout.closeDrawer(GravityCompat.START)
+                if (closeDrawer) drawerLayout.closeDrawer(GravityCompat.START)
+            } else { // saudi arabia
+                val screenListingFragment = ScreenListingFragment()
+                screenListingFragment.listPositionListener = object  : ListPostionListener {
+                    override fun onListPositionChanged(position: Int) {
+                        setToolbarGreenEnabled(position >= 1, menus[groupPosition].getTitle())
+                    }
+                }
+                val bundle = Bundle()
+                bundle.putString("tid", menus[groupPosition].getTid())
+                screenListingFragment.arguments = bundle
+                openFragment(screenListingFragment)
+                setToolbarGreenEnabled(false, menus[groupPosition].getTitle())
             }
             false
         }

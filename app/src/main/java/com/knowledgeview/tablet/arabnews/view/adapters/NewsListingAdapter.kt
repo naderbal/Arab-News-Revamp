@@ -75,10 +75,13 @@ class NewsListingAdapter(private var context: Context, private var news: List<Se
                         headerView.date.text = Methods.dateFormatterString(section.getDate()!!)
 
                     headerView.newsImage.setOnClickListener {
-                        val intent = Intent(context, NodeDetailsActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        intent.putExtra("entityID", section.getEntityID())
-                        context.startActivity(intent)
+                        openNodeActivity(section)
+                    }
+                    headerView.newsHeadline.setOnClickListener {
+                        openNodeActivity(section)
+                    }
+                    headerView.bullets.setOnClickListener{
+                        openNodeActivity(section)
                     }
                 }
                 1 -> {
@@ -107,20 +110,24 @@ class NewsListingAdapter(private var context: Context, private var news: List<Se
                     if (section.getDate() != null)
                         itemView.date.text = Methods.dateFormatterString(section.getDate()!!)
                     itemView.news.setOnClickListener {
-                        val intent = Intent(context, NodeDetailsActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        intent.putExtra("entityID", section.getEntityID())
-                        context.startActivity(intent)
+                        openNodeActivity(section)
+                    }
+                    itemView.newsHeadline.setOnClickListener {
+                        openNodeActivity(section)
                     }
                     itemView.newsImage.setOnClickListener {
-                        val intent = Intent(context, NodeDetailsActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        intent.putExtra("entityID", section.getEntityID())
-                        context.startActivity(intent)
+                        openNodeActivity(section)
                     }
                 }
             }
         }
+    }
+
+    private fun openNodeActivity(section: SectionListing) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", section.getEntityID())
+        context.startActivity(intent)
     }
 
     fun addNews(news: List<SectionListing>) {

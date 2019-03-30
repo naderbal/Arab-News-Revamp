@@ -1,6 +1,7 @@
 package com.knowledgeview.tablet.arabnews.di
 
 import com.knowledgeview.tablet.arabnews.view.fragments.*
+import com.knowledgeview.tablet.arabnews.view.fragments.face.FaceGalleryFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.opinions.OpinionsListFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.photosGallery.PhotoGalleryFragment
 import com.knowledgeview.tablet.arabnews.view.fragments.videoGallery.VideoGalleryFragment
@@ -34,4 +35,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeVideoGalleryFragmentModule(): VideoGalleryFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeFaceGalleryFragmentModule(): FaceGalleryFragment
 }

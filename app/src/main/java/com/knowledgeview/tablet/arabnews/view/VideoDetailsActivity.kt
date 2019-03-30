@@ -1,5 +1,6 @@
 package com.knowledgeview.tablet.arabnews.view
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -7,8 +8,10 @@ import android.text.Html
 import android.text.TextUtils
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,9 +38,16 @@ class VideoDetailsActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    lateinit var ivShare: ImageView
+
+    var sharableLink: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_details)
+        configureToolbarWithUpButton(R.id.toolbar)
+        ivShare = findViewById(R.id.iv_share)
+
         val youTubePlayerFragment = initYouTubePlayer()
         val author = findViewById<TextView>(R.id.author)
         val date = findViewById<TextView>(R.id.date)
@@ -53,6 +63,7 @@ class VideoDetailsActivity : AppCompatActivity() {
         nodeViewModel.getNodeDetails().observe(this, Observer { nodes ->
             if (nodes != null && !nodes.data.isNullOrEmpty()) {
                 val node = nodes.data[0]
+                sharableLink = node.link
                 content.webChromeClient = WebChromeClient()
                 if (!TextUtils.isEmpty(node.content)) {
                     content.settings.javaScriptEnabled = true
@@ -83,6 +94,16 @@ class VideoDetailsActivity : AppCompatActivity() {
                         })
             }
         })
+
+        ivShare.setOnClickListener {
+            if (sharableLink != null) {
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+                sharingIntent.type = "text/plain"
+                val shareBody = sharableLink
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+                startActivity(Intent.createChooser(sharingIntent, "Share"))
+            }
+        }
     }
 
     private fun initYouTubePlayer(): YouTubePlayerSupportFragment? {
@@ -104,4 +125,20 @@ class VideoDetailsActivity : AppCompatActivity() {
             Html.fromHtml(html);
         }.toString()
     }
+
+    fun configureToolbarWithUpButton(toolbarId: Int) {
+        val toolbar = findViewById<Toolbar>(toolbarId)
+        // set toolbar
+        setSupportActionBar(toolbar)
+        // add click listener on toolbar back arrow
+        toolbar.setNavigationOnClickListener { view -> onBackPressed() }
+        val supportActionBar = supportActionBar
+        // configure back action
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayShowTitleEnabled(false)
+            supportActionBar.setDisplayHomeAsUpEnabled(true)
+            supportActionBar.setDisplayShowHomeEnabled(true)
+        }
+    }
+
 }

@@ -47,6 +47,7 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:visibility="gone"
             android:layout_toStartOf="@+id/next"
             android:layout_toEndOf="@+id/back" />
 

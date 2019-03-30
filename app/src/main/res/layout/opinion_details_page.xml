@@ -54,9 +54,10 @@
 
             <LinearLayout
                 android:id="@+id/container_author"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/author_image"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:orientation="horizontal">
@@ -65,10 +66,13 @@
                     android:id="@+id/author_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="180dp"
                     android:fontFamily="@font/isento"
                     android:textColor="@color/orange"
                     android:textSize="11sp"
-                    tools:text="Abdull Rahman al rashifd ddasd"/>
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Abdull  al rashifd ddasd"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -112,19 +116,22 @@
             android:id="@+id/bullets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
 
         <WebView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_margin="10dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/opinion_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
     </LinearLayout>
 </ScrollView>

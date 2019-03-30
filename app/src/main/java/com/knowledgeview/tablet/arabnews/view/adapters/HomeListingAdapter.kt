@@ -82,6 +82,9 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
                 headerView.newsImage.setOnClickListener {
                     openNodeActivity(innerSection)
                 }
+                headerView.bullets.setOnClickListener{
+                        openNodeActivity(innerSection)
+                }
                 if (!innerSection.getLabel().isNullOrEmpty()) headerView.newsHeadline.text = innerSection.getLabel()
                 if (!innerSection.getAuthor().isNullOrEmpty()) headerView.author.text = innerSection.getAuthor()!![0]
                 if (innerSection.getDate() != null)

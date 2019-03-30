@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager
 import com.knowledgeview.tablet.arabnews.R
 import com.knowledgeview.tablet.arabnews.di.ViewModelFactory
 import com.knowledgeview.tablet.arabnews.view.adapters.TutorialPagerAdapter
-import com.knowledgeview.tablet.arabnews.viewmodel.SectionListingViewModel
 import com.knowledgeview.tablet.arabnews.viewmodel.SharedViewModel
 import com.srpc.independantminds.model.local.Prefs
 import dagger.android.AndroidInjection

@@ -30,8 +30,8 @@ class Arabnews : Application(), HasActivityInjector {
                 .setNotificationOpenedHandler(NotificationOpened(applicationContext))
                 .init()
 
-        Instabug.Builder(this, "50a54cb0f79e53fd2f7d9d1571757786")
-                .setInvocationEvents(InstabugInvocationEvent.SHAKE, InstabugInvocationEvent.SCREENSHOT)
-                .build()
+//        Instabug.Builder(this, "50a54cb0f79e53fd2f7d9d1571757786")
+//                .setInvocationEvents(InstabugInvocationEvent.SHAKE, InstabugInvocationEvent.SCREENSHOT)
+//                .build()
     }
 }

@@ -30,7 +30,7 @@
         <activity android:name=".view.MainActivity"/>
         <activity android:name=".view.TutorialActivity"/>
         <activity android:name=".view.ArticleDetailsActivity" android:theme="@style/DetailsTheme"/>
-        <activity android:name=".view.VideoDetailsActivity"/>
+        <activity android:name=".view.VideoDetailsActivity" android:theme="@style/VideoTheme"/>
         <activity android:name=".view.AuthorDetailsActivity" android:theme="@style/DetailsTheme"/>
 
         <service android:name="com.knowledgeview.tablet.arabnews.view.services.FirebaseMessageService">

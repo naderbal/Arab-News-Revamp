@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                tools:background="@color/black"
                 app:layout_collapseMode="parallax" >
 
                 <ImageView
@@ -36,11 +37,13 @@
                     android:scaleType="centerCrop" />
 
                 <LinearLayout
+                    android:id="@+id/container_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="45dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_alignParentBottom="true">
 
                     <TextView
@@ -48,10 +51,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/playfair"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textColor="@color/white"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
-                        tools:text="AUTHORS"/>
+                        tools:text="AUTHORS AUTHORS "/>
 
                     <TextView
                         android:id="@+id/tv_subtitle"
@@ -60,9 +65,12 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/playfair"
                         android:textColor="@color/white"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textSize="14sp"
                         android:visibility="gone"
-                        tools:text="AUTHORS"/>
+                        tools:visibility="visible"
+                        tools:text="Subtitle Subtitle Subtitle "/>
 
                     <TextView
                         android:id="@+id/tv_author_name"
@@ -71,9 +79,12 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/playfair"
                         android:textColor="@color/white"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:visibility="gone"
+                        tools:visibility="visible"
                         android:textSize="14sp"
-                        tools:text="AUTHORS"/>
+                        tools:text="Author NameAuthor NameAuthor Name"/>
 
                     <TextView
                         android:id="@+id/tv_views_count_date"
@@ -82,9 +93,10 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/playfair"
                         android:textColor="@color/white"
-                        android:visibility="gone"
+                        android:visibility="visible"
+                        tools:visibility="visible"
                         android:textSize="14sp"
-                        tools:text="AUTHORS"/>
+                        tools:text="23 March 2019"/>
                 </LinearLayout>
             </RelativeLayout>
 
