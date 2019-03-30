@@ -3,14 +3,18 @@ package com.knowledgeview.tablet.arabnews.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.knowledgeview.tablet.arabnews.BuildConfig
 import com.knowledgeview.tablet.arabnews.models.local.ArabNewsDatabase
 import com.knowledgeview.tablet.arabnews.models.local.DaoAccess
 import com.knowledgeview.tablet.arabnews.models.networking.apis.*
 import com.knowledgeview.tablet.arabnews.utils.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -24,9 +28,19 @@ class ApplicationModule {
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl("http://ndemo.arabnews.com/jsonfeed/api/v2/")
+        val builder = OkHttpClient().newBuilder()
+        builder.readTimeout(60, TimeUnit.SECONDS)
+        builder.connectTimeout(60, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG) {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BASIC
+            builder.addInterceptor(interceptor)
+        }
+
+        return Retrofit.Builder().baseUrl("http://www.arabnews.com/jsonfeed/api/v2/")
                 .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(builder.build())
                 .build()
     }
 
@@ -65,6 +79,30 @@ class ApplicationModule {
     @Provides
     fun provideRetrofitOpinionDetails(retrofit: Retrofit): PostOpinionDetails {
         return retrofit.create(PostOpinionDetails::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitOpinionListing(retrofit: Retrofit): PostOpinionsList {
+        return retrofit.create(PostOpinionsList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitPhotoGalleryListing(retrofit: Retrofit): PostPhotoGalleryList {
+        return retrofit.create(PostPhotoGalleryList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitVideoGalleryListing(retrofit: Retrofit): PostVideoGalleryList {
+        return retrofit.create(PostVideoGalleryList::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitAuthorOpinionsListing(retrofit: Retrofit): PostAuthorOpinionsList {
+        return retrofit.create(PostAuthorOpinionsList::class.java)
     }
 
     @Singleton

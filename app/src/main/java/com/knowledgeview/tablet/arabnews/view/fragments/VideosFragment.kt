@@ -54,7 +54,7 @@ class VideosFragment : DaggerFragment() {
                 val layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
                 newsListing.layoutManager = layoutManager
                 news = newsDao.allVideos
-                adapter = VideoListingAdapter(context!!,news)
+                //adapter = VideoListingAdapter(context!!,news)
                 newsListing.adapter = adapter
                 refreshNews(tid!!)
                 newsListing.addOnScrollListener(object : EndlessScrollListener(layoutManager) {

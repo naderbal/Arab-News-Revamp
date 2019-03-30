@@ -2,6 +2,7 @@ package com.knowledgeview.tablet.arabnews.models.repositories
 
 import androidx.lifecycle.LiveData
 import com.knowledgeview.tablet.arabnews.AppExecutors
+import com.knowledgeview.tablet.arabnews.models.data.Node
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import com.knowledgeview.tablet.arabnews.models.data.SectionResult
 import com.knowledgeview.tablet.arabnews.models.local.DaoAccess

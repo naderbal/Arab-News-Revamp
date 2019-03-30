@@ -52,16 +52,27 @@ class HomeHeaderAdapter(private val context: Context, private var news: List<Hom
                 )
             }
             if (!section.getLabel().isNullOrEmpty()) itemView.newsHeadline.text = section.getLabel()
-            if (!section.getAuthor().isNullOrEmpty()) itemView.author.text = section.getAuthor()!![0]
-            if (section.getDate() != null)
-                itemView.date.text = Methods.dateFormatterString(section.getDate()!!)
-            itemView.news.setOnClickListener {
-                val intent = Intent(context, NodeDetailsActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                intent.putExtra("entityID",section.getEntityID())
-                context.startActivity(intent)
+            if (!section.getAuthor().isNullOrEmpty()) {
+                itemView.author.visibility = View.VISIBLE
+                itemView.author.text = section.getAuthor()!![0]
+            } else {
+                itemView.author.visibility = View.GONE
+            }
+            if (section.getDate() != null) itemView.date.text = Methods.dateFormatterString(section.getDate()!!)
+            itemView.newsHeadline.setOnClickListener {
+                openNodeDetails(section)
+            }
+            itemView.newsImage.setOnClickListener {
+                openNodeDetails(section)
             }
         }
+    }
+
+    private fun openNodeDetails(section: HomeData) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", section.getEntityID())
+        context.startActivity(intent)
     }
 
     private class ViewItem(itemView: View) : RecyclerView.ViewHolder(itemView) {

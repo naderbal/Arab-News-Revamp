@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.knowledgeview.tablet.arabnews.R
+import com.knowledgeview.tablet.arabnews.models.data.HomeData
 import com.knowledgeview.tablet.arabnews.models.data.ParentSection
 import com.knowledgeview.tablet.arabnews.models.data.Term
 import com.knowledgeview.tablet.arabnews.utils.Methods
@@ -53,8 +54,8 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
             0 -> {
                 val innerSection = section.data!![0]
                 val headerView = holder as HomeListingAdapter.ViewHeaderFace
-                if (!innerSection.getPictureLarge().isNullOrEmpty()) {
-                    Picasso.get().load(innerSection.getPictureLarge()!![0]).fit().centerCrop().into(headerView.newsImage)
+                if (!innerSection.getPictureSmall().isNullOrEmpty()) {
+                    Picasso.get().load(innerSection.getPictureSmall()!![0]).fit().centerCrop().into(headerView.newsImage)
                 }
                 headerView.bullets.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL
                         , false)
@@ -75,11 +76,14 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
                             0           // flags (not currently used, set to 0)
                     )
                 }
+                headerView.newsHeadline.setOnClickListener {
+                    openNodeActivity(innerSection)
+                }
                 headerView.newsImage.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",innerSection.getEntityID())
-                    context.startActivity(intent)
+                    openNodeActivity(innerSection)
+                }
+                headerView.bullets.setOnClickListener{
+                        openNodeActivity(innerSection)
                 }
                 if (!innerSection.getLabel().isNullOrEmpty()) headerView.newsHeadline.text = innerSection.getLabel()
                 if (!innerSection.getAuthor().isNullOrEmpty()) headerView.author.text = innerSection.getAuthor()!![0]
@@ -103,7 +107,7 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
                 } else if (section.value == "opinion") {
                     itemView.sectionTitle.text = "Opinion"
                     itemView.sectionTitle.visibility = View.VISIBLE
-                    itemView.data.adapter = OpinionListAdapter(context,section.data!!,position)
+                    itemView.data.adapter = OpinionListAdapter(context,section.data!!,position, false)
                 } else {
                     itemView.sectionTitle.text = "Cartoon"
                     itemView.sectionTitle.visibility = View.VISIBLE
@@ -113,12 +117,20 @@ class HomeListingAdapter(private val context: Context, private var news: List<Te
         }
     }
 
+    private fun openNodeActivity(innerSection: HomeData) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", innerSection.getEntityID())
+        context.startActivity(intent)
+    }
+
     private class ViewHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sectionTitle = itemView.findViewById<TextView>(R.id.section_title)!!
         val data = itemView.findViewById<RecyclerView>(R.id.data)!!
     }
 
     private class ViewHeaderFace(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val viewContainer = itemView.findViewById<View>(R.id.view_container)!!
         val newsImage = itemView.findViewById<ImageView>(R.id.face_news_image)!!
         val newsHeadline = itemView.findViewById<TextView>(R.id.item_label)!!
         val author = itemView.findViewById<TextView>(R.id.author)!!

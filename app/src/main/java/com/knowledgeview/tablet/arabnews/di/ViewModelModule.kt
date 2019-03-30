@@ -41,8 +41,28 @@ abstract class ViewModelModule {
     @ViewModelKey(NodeViewModel::class)
     abstract fun bindNodeViewModel(sharedViewModel: NodeViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(OpinionsListingViewModel::class)
+    abstract fun bindOpinionsListViewModel(opinionsListingViewModel: OpinionsListingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PhotoGalleryViewModel::class)
+    abstract fun bindPhotoGalleryListViewModel(photoListingViewModel: PhotoGalleryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VideoGalleryViewModel::class)
+    abstract fun bindVideoGalleryListViewModel(videoGalleryListingViewModel: VideoGalleryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AuthorOpinionsListingViewModel::class)
+    abstract fun bindAuthorOpinionsListViewModel(authorOpinionsListingViewModel: AuthorOpinionsListingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OpinionDetailsViewModel::class)
+    abstract fun bindOpinionDetailsListViewModel(opinionDetailsViewModel: OpinionDetailsViewModel): ViewModel
 }
-
-
-
-

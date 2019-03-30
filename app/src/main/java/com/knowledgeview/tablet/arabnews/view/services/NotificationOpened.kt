@@ -17,6 +17,7 @@ class NotificationOpened(context: Context) :  OneSignal.NotificationOpenedHandle
         this.context = context
     }
 
+
     override fun notificationOpened(result: OSNotificationOpenResult?) {
         if (result != null) {
             val objectJSON = result.notification.payload.additionalData

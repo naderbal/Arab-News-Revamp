@@ -9,7 +9,13 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-
+        <item name="colorControlNormal">@color/dark_green</item>
     </style>
 
+    <style name="DetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/dark_green</item>
+    </style>
+    <style name="VideoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/white</item>
+    </style>
 </resources>

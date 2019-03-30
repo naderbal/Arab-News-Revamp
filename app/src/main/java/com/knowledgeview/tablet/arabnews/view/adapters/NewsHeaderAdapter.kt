@@ -54,11 +54,16 @@ class NewsHeaderAdapter(private val context: Context, private val readingList: L
         when (holder.itemViewType) {
             0 -> {
                 val itemView = holder as NewsHeaderAdapter.ViewHeader
-                if (!readingItem.getPictureLarge().isNullOrEmpty()) {
-                    Picasso.get().load(readingItem.getPictureLarge()!![0]).fit().centerCrop().into(itemView.newsImage)
+                if (!readingItem.getPictureSmall().isNullOrEmpty()) {
+                    Picasso.get().load(readingItem.getPictureSmall()!![0]).fit().centerCrop().into(itemView.newsImage)
                 }
                 if (!readingItem.getLabel().isNullOrEmpty()) itemView.newsHeadline.text = readingItem.getLabel()
-                if (!readingItem.getAuthor().isNullOrEmpty()) itemView.author.text = readingItem.getAuthor()!![0]
+                if (!readingItem.getAuthor().isNullOrEmpty()){
+                    itemView.author.visibility = View.VISIBLE
+                    itemView.author.text = readingItem.getAuthor()!![0]
+                } else{
+                    itemView.author.visibility = View.GONE
+                }
                 if (readingItem.getDate() != null)
                     itemView.date.text = Methods.dateFormatterString(readingItem.getDate()!!)
                 itemView.newsHeadline.tag = "$groupPosition - $position"
@@ -76,19 +81,24 @@ class NewsHeaderAdapter(private val context: Context, private val readingList: L
                             0           // flags (not currently used, set to 0)
                     )
                 }
-                itemView.news.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingList[position].getEntityID())
-                    context.startActivity(intent)
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeActivity(position)
+                }
+                itemView.newsImage.setOnClickListener {
+                    openNodeActivity(position)
                 }
             }
             1 -> {
                 val itemView = holder as NewsHeaderAdapter.ViewItem
-                if (!readingItem.getPictureLarge().isNullOrEmpty()) {
-                    Picasso.get().load(readingItem.getPictureLarge()!![0]).fit().centerCrop().into(itemView.newsImage)
+                if (!readingItem.getPictureSmall().isNullOrEmpty()) {
+                    Picasso.get().load(readingItem.getPictureSmall()!![0]).fit().centerCrop().into(itemView.newsImage)
                 }
-                if (!readingItem.getAuthor().isNullOrEmpty()) itemView.author.text = readingItem.getAuthor()!![0]
+                if (!readingItem.getAuthor().isNullOrEmpty()){
+                    itemView.author.visibility = View.VISIBLE
+                    itemView.author.text = readingItem.getAuthor()!![0]
+                } else {
+                    itemView.author.visibility = View.GONE
+                }
                 if (!readingItem.getLabel().isNullOrEmpty()) itemView.newsHeadline.text = readingItem.getLabel()
                 if (readingItem.getDate() != null)
                     itemView.date.text = Methods.dateFormatterString(readingItem.getDate()!!)
@@ -107,14 +117,21 @@ class NewsHeaderAdapter(private val context: Context, private val readingList: L
                             0           // flags (not currently used, set to 0)
                     )
                 }
-                itemView.news.setOnClickListener {
-                    val intent = Intent(context, NodeDetailsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("entityID",readingList[position].getEntityID())
-                    context.startActivity(intent)
+                itemView.newsHeadline.setOnClickListener {
+                    openNodeActivity(position)
+                }
+                itemView.newsImage.setOnClickListener {
+                    openNodeActivity(position)
                 }
             }
         }
+    }
+
+    private fun openNodeActivity(position: Int) {
+        val intent = Intent(context, NodeDetailsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("entityID", readingList[position].getEntityID())
+        context.startActivity(intent)
     }
 
     private class ViewItem(itemView: View) : RecyclerView.ViewHolder(itemView) {

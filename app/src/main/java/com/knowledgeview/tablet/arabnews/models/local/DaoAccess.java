@@ -78,5 +78,10 @@ public interface DaoAccess {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertNodes(List<Node> nodes);
 
+    @Query("select * from Node where entityID=:entityID")
+    LiveData<Node> getNode(String entityID);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertNode(Node nodes);
 }
 

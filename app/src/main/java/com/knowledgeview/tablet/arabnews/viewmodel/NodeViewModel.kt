@@ -15,17 +15,7 @@ class NodeViewModel @Inject constructor(private val nodeDetailsRepository: NodeD
         nodeDetails = nodeDetailsRepository.getNodeDetails(entityID)
     }
 
-    fun fetchOpinionDetails(entityID: String,authorID:String){
-        nodeDetails = nodeDetailsRepository.getOpinionDetails(entityID,authorID)
-    }
-
-
-
     fun getNodeDetails(): LiveData<Resource<List<Node>>> {
-        return this.nodeDetails!!
-    }
-
-    fun getOpinionDetails(): LiveData<Resource<List<Node>>> {
         return this.nodeDetails!!
     }
 }

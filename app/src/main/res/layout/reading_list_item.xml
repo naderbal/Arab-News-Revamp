@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="125dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reading_list"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
@@ -28,8 +29,7 @@
             android:layout_margin="10dp"
             android:fontFamily="@font/playfair"
             android:maxLines="3"
-            android:textColor="@color/black"
-            app:autoSizeTextType="uniform" />
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/author"
@@ -40,7 +40,8 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/isento"
             android:textColor="@color/grey"
-            app:autoSizeTextType="uniform"
+            android:textSize="10sp"
+            tools:text="Nader Baltaji"
             android:maxLines="1"/>
 
         <TextView
@@ -49,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="5dp"
-            app:autoSizeTextType="uniform"
             android:layout_toEndOf="@+id/author"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/isento"
+            android:textSize="10sp"
+            tools:text="23 March 2019"
             android:maxLines="1"
             android:textColor="@color/grey" />
     </RelativeLayout>

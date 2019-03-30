@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class HomeListing {
     @SerializedName("api_widget_opinion")
-    var opinion: Term? = null
+    var opinion: List<Term>? = null
     @SerializedName("api_widget_cartoon")
     var cartoon: Term? = null
     @SerializedName("api_term_page")
